@@ -2,9 +2,10 @@
 
 namespace Crazymeeks\Oauth0\Resources;
 
+use Crazymeeks\Oauth0\Resources\BaseResource;
 use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
 
-class AccessToken
+class AccessToken extends BaseResource
 {
 
     /**
@@ -12,69 +13,46 @@ class AccessToken
      */
     protected $clientSecretId;
 
-    public function __construct(ClientSecretIdInterface $clientSecretId)
-    {
-        $this->clientSecretId = $clientSecretId;
-    }
-
     /**
-     * Store our overloaded properties
-     *
-     * @var array
+     * @var string
      */
-    protected $properties = [];
+    protected $httpMethod = 'post';
 
 
     /**
      * @var string
      */
-    protected $apiEndpoint = '/oauth/token';
+    protected $apiEndpoint = 'oauth/token';
 
-    /**
-     * Set api endpoint for this resource
-     *
-     * @param string $apiEndpoint
-     * 
-     * @return $this
-     */
-    public function setApiEndPoint(string $apiEndpoint)
+    public function __construct(ClientSecretIdInterface $clientSecretId)
     {
-        $this->apiEndpoint = $apiEndpoint;
-        return $this;
+        $this->clientSecretId = $clientSecretId;
     }
 
+
     /**
-     * Get api endpoint for this resource
+     * Get access token returned by oauth0
      *
      * @return string
      */
-    public function getApiEndPoint()
+    public function getToken()
     {
-        return $this->apiEndpoint;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function __set($name, $value)
-    {
-        $this->properties[$name] = $value;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function __get($name)
-    {
-        return array_key_exists($name, $this->properties) ? $this->properties[$name] : null;
+        return $this->oauthResponse->access_token;
     }
 
     /**
-     * Return properties
+     * Get scope for the requested access token
      *
-     * @return array
+     * @return string
+     */
+    public function getScope()
+    {
+        return $this->oauthResponse->scope;
+    }
+
+
+    /** 
+     * @inheritDoc
      */
     public function get()
     {

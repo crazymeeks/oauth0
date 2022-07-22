@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Oauth0;
+namespace Tests\Unit\Oauth0\Resources;
 
 use Tests\TestCase;
 

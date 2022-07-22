@@ -1,0 +1,22 @@
+{
+    "blocked": false,
+    "created_at": "2022-07-21T10:02:24.385Z",
+    "email": "john.doe@gmail.com",
+    "email_verified": true,
+    "family_name": "Doe",
+    "given_name": "John",
+    "identities": [
+        {
+            "connection": "Username-Password-Authentication",
+            "user_id": "62d9243068810179098638724",
+            "provider": "auth0",
+            "isSocial": false
+        }
+    ],
+    "name": "John Doe",
+    "nickname": "j",
+    "picture": "https://secure.gravatar.com/avatar/15626c5e0c749cb912f9d1ad48dba440?s=480&r=pg&d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png",
+    "updated_at": "2022-07-21T10:02:24.385Z",
+    "user_id": "auth0|62d9243068810179098638724",
+    "user_metadata": {}
+}
