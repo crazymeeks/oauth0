@@ -1,0 +1,22 @@
+version: "3.2"
+
+services:
+  oauth0:
+    image: oauth0:latest
+    container_name: oauth0-${CONTAINER_IP}
+    volumes:
+       - ./:/var/www/web
+    networks:
+      default:
+        ipv4_address: ${CONTAINER_IP}
+    tty: true
+    stdin_open: true
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    dns:
+      - 8.8.8.8
+networks:
+  default:
+      name: ${DOCKER_NETWORK}
+      external: true
