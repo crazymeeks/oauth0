@@ -2,6 +2,7 @@
 
 namespace Crazymeeks\Oauth0\Resources;
 
+use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Contracts\Resources\ResourceInterface;
 
 abstract class BaseResource implements ResourceInterface
@@ -65,6 +66,23 @@ abstract class BaseResource implements ResourceInterface
         return array_key_exists($name, $this->properties) ? $this->properties[$name] : null;
     }
 
+
+    /**
+     * @inheritDoc
+     */
+    public function __isset($name)
+    {
+        return isset($this->properties[$name]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __unset($name)
+    {
+        unset($this->properties[$name]);
+    }
+
     /**
     * @inheritDoc
     */
@@ -103,6 +121,16 @@ abstract class BaseResource implements ResourceInterface
         return $this;
     }
 
+    /**
+     * Get response return by oauth0
+     *
+     * @return object
+     */
+    public function getResponse()
+    {
+        return $this->oauthResponse;
+    }
+
 
     /**
     * @inheritDoc
@@ -119,5 +147,18 @@ abstract class BaseResource implements ResourceInterface
     public function getApiEndPoint()
     {
         return $this->apiEndpoint;
+    }
+
+    /**
+     * Create default props
+     *
+     * @param \Crazymeeks\Oauth0\Oauth0 $oauth0
+     * 
+     * @return void
+     */
+    protected function createDefaultProps(Oauth0 $oauth0)
+    {
+        $this->client_id = $this->clientSecretId->getClientId();
+        $this->client_secret = $this->clientSecretId->getClientSecret();
     }
 }

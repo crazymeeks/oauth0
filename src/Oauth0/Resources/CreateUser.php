@@ -2,8 +2,8 @@
 
 namespace Crazymeeks\Oauth0\Resources;
 
+use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\BaseResource;
-use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
 
 class CreateUser extends BaseResource
 {
@@ -21,23 +21,19 @@ class CreateUser extends BaseResource
     protected $apiEndpoint = 'api/v2/users';
 
 
-
-    /**
-     * Get response return by oauth0
-     *
-     * @return object
-     */
-    public function getResponse()
-    {
-        return $this->oauthResponse;
-    }
-
     /** 
      * @inheritDoc
      */
-    public function get()
+    public function get(Oauth0 $oauth0)
     {
-
         return $this->properties;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function createDefaultProps(Oauth0 $oauth0)
+    {
+        
     }
 }

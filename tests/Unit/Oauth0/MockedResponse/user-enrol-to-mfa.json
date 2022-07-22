@@ -1,0 +1,8 @@
+{
+    "authenticator_type": "otp",
+    "secret": "DFDKLFJSDKFJLDFJLDFJE",
+    "barcode_uri": "otpauth://totp/oauth-test:john.doe%2B3%40gmail.com?secret=KDIELEIODEM4F4RTY&issuer=oauth-test&algorithm=SHA1&digits=6&period=30",
+    "recovery_codes": [
+        "FDLFOELDOEILRKELFJLKDFDFD"
+    ]
+}

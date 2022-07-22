@@ -3,7 +3,6 @@
 namespace Crazymeeks\Oauth0;
 
 use Ixudra\Curl\CurlService;
-use Ixudra\Curl\Builder as CurlBuilder;
 use Crazymeeks\Oauth0\Exception\ResourceException;
 use Crazymeeks\Oauth0\Contracts\Resources\ResourceInterface;
 
@@ -60,6 +59,16 @@ class Oauth0
     }
 
     /**
+     * Get tenant's host domain
+     *
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    /**
      * Set oauth0 resource
      *
      * @param \Crazymeeks\Oauth0\Contracts\Resources\ResourceInterface $resourceInterface
@@ -88,7 +97,7 @@ class Oauth0
         $curl = $this->mergeHeaders($curl);
         $method = $this->oauthResource->getHttpMethod();
 
-        $response = $curl->withData($this->oauthResource->get())
+        $response = $curl->withData($this->oauthResource->get($this))
                          ->returnResponseObject()
                          ->{$method}();
 

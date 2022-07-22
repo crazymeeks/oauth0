@@ -6,8 +6,9 @@ use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\BaseResource;
 use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
 
-class AccessToken extends BaseResource
+class EnrolUserToMFA extends BaseResource
 {
+
 
     /**
      * @var \Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface
@@ -23,43 +24,70 @@ class AccessToken extends BaseResource
     /**
      * @var string
      */
-    protected $apiEndpoint = 'oauth/token';
+    protected $apiEndpoint = 'mfa/associate';
+
 
     public function __construct(ClientSecretIdInterface $clientSecretId)
     {
         $this->clientSecretId = $clientSecretId;
     }
 
-
     /**
-     * Get access token returned by oauth0
+     * Get authenticator type
      *
      * @return string
      */
-    public function getToken()
+    public function getAuthenticatorType()
     {
-        return $this->oauthResponse->access_token;
+        return $this->getResponse()->authenticator_type;
     }
 
     /**
-     * Get scope for the requested access token
+     * Get secret
      *
      * @return string
      */
-    public function getScope()
+    public function getSecret()
     {
-        return $this->oauthResponse->scope;
+        return $this->getResponse()->secret;
     }
 
+    /**
+     * Get barcode uri with link so can be displayed in <img> tag
+     *
+     * @return string
+     */
+    public function getBarcodeUri()
+    {
+        return 'https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=' . $this->getResponse()->barcode_uri;
+    }
+
+    /**
+     * Get real barcode uri
+     *
+     * @return string
+     */
+    public function getRealBarcodeUri()
+    {
+        return $this->getResponse()->barcode_uri;
+    }
+
+    /**
+     * Get recovery codes
+     *
+     * @return array
+     */
+    public function getRecoveryCodes()
+    {
+        return $this->getResponse()->recovery_codes;
+    }
 
     /** 
      * @inheritDoc
      */
     public function get(Oauth0 $oauth0)
     {
-
         $this->createDefaultProps($oauth0);
-
         return $this->properties;
     }
 
@@ -69,11 +97,14 @@ class AccessToken extends BaseResource
     protected function createDefaultProps(Oauth0 $oauth0)
     {
         parent::createDefaultProps($oauth0);
+
         $audience = rtrim(ltrim($this->audience, '/'), '/') . '/';
+
         $this->audience = sprintf("%s/%s", $oauth0->getHost(), $audience);
 
-        if (!isset($this->grant_type)) {
-            $this->grant_type = 'client_credentials';
+        if (!isset($this->scope)) {
+            $this->scope = 'enrol';
         }
+
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Unit\Oauth0\Resources;
 
 use Tests\TestCase;
 
+use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\AccessToken;
 use Crazymeeks\Oauth0\Provider\ClientSecretId;
 
@@ -23,11 +24,11 @@ class AccessTokenTest extends TestCase
     {
         $accessToken = new AccessToken($this->clientSecretId);
 
-        $accessToken->audience = 'https://oauth0-test.auth0.com/api/v2/';
+        $accessToken->audience = 'api/v2/';
         $accessToken->grant_type = 'client_credentials';
 
 
-        $properties = $accessToken->get();
+        $properties = $accessToken->get(new Oauth0('https://oauth0-test.auth0.com'));
 
         $this->assertSame([
             'audience' => 'https://oauth0-test.auth0.com/api/v2/',

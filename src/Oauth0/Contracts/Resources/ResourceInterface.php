@@ -2,6 +2,8 @@
 
 namespace Crazymeeks\Oauth0\Contracts\Resources;
 
+use Crazymeeks\Oauth0\Oauth0;
+
 interface ResourceInterface
 {
 
@@ -67,8 +69,10 @@ interface ResourceInterface
 
     /**
      * Return properties of the resource
+     * 
+     * @param \Crazymeeks\Oauth0\Oauth0 $oauth0
      *
      * @return array
      */
-    public function get();
+    public function get(Oauth0 $oauth0);
 }
