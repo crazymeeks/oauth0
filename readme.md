@@ -5,6 +5,6 @@
 #
 Documentation will be released soon!
 #
-For now, you may tests cases as it contains codes on how this library works.
+For now, you may read tests cases as it contains codes on how this library works.
 #
 Author: Jeff Claud
