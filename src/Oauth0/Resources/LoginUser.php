@@ -5,8 +5,10 @@ namespace Crazymeeks\Oauth0\Resources;
 use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\BaseResource;
 use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
+use Crazymeeks\Oauth0\Contracts\Resources\ValidateMFAOTPInterface;
 
-class LoginUser extends BaseResource
+
+class LoginUser extends BaseResource implements ValidateMFAOTPInterface
 {
 
 
@@ -33,53 +35,47 @@ class LoginUser extends BaseResource
 
 
     /**
-     * Get authenticator type
+     * Get access token
      *
      * @return string
      */
-    public function getAuthenticatorType()
+    public function getAccessToken()
     {
-        return $this->getResponse()->authenticator_type;
+        return $this->getResponse()->access_token;
     }
 
     /**
-     * Get secret
+     * Get id token
      *
      * @return string
      */
-    public function getSecret()
+    public function getIdToken()
     {
-        return $this->getResponse()->secret;
+        return $this->getResponse()->id_token;
     }
 
     /**
-     * Get barcode uri with link so can be displayed in <img> tag
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function getBarcodeUri()
+    public function getScope()
     {
-        return 'https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=' . $this->getResponse()->barcode_uri;
+        return $this->getResponse()->scope;
     }
 
     /**
-     * Get real barcode uri
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function getRealBarcodeUri()
+    public function getExpiresIn()
     {
-        return $this->getResponse()->barcode_uri;
+        return $this->getResponse()->expires_in;
     }
 
     /**
-     * Get recovery codes
-     *
-     * @return array
+     * @inheritDoc
      */
-    public function getRecoveryCodes()
+    public function getTokenType()
     {
-        return $this->getResponse()->recovery_codes;
+        return $this->getResponse()->token_type;
     }
 
 

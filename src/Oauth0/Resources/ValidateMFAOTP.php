@@ -1,13 +1,16 @@
 <?php
 
+
 namespace Crazymeeks\Oauth0\Resources;
 
 use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\BaseResource;
 use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
+use Crazymeeks\Oauth0\Contracts\Resources\ValidateMFAOTPInterface;
 
-class AccessToken extends BaseResource
+class ValidateMFAOTP extends BaseResource implements ValidateMFAOTPInterface
 {
+
 
     /**
      * @var \Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface
@@ -32,23 +35,47 @@ class AccessToken extends BaseResource
 
 
     /**
-     * Get access token returned by oauth0
+     * Get access token
      *
      * @return string
      */
     public function getAccessToken()
     {
-        return $this->oauthResponse->access_token;
+        return $this->getResponse()->access_token;
     }
 
     /**
-     * Get scope for the requested access token
+     * Get id token
      *
      * @return string
      */
+    public function getIdToken()
+    {
+        return $this->getResponse()->id_token;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getScope()
     {
-        return $this->oauthResponse->scope;
+        return $this->getResponse()->scope;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getExpiresIn()
+    {
+        return $this->getResponse()->expires_in;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTokenType()
+    {
+        return $this->getResponse()->token_type;
     }
 
 
@@ -63,17 +90,15 @@ class AccessToken extends BaseResource
         return $this->properties;
     }
 
+
     /**
      * @inheritDoc
      */
     protected function createDefaultProps(Oauth0 $oauth0)
     {
-        parent::createDefaultProps($oauth0);
-        $audience = rtrim(ltrim($this->audience, '/'), '/') . '/';
-        $this->audience = sprintf("%s/%s", $oauth0->getHost(), $audience);
 
-        if (!isset($this->grant_type)) {
-            $this->grant_type = 'client_credentials';
-        }
+        parent::createDefaultProps($oauth0);
+
+        $this->grant_type = sprintf("%s/%s", $oauth0->getHost(), 'grant_type/mfa-otp');
     }
 }

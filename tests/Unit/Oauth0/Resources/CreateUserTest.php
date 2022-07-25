@@ -3,11 +3,15 @@
 namespace Tests\Unit\Oauth0\Resources;
 
 use Tests\TestCase;
+use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\CreateUser;
 
 class CreateUserTest extends TestCase
 {
 
+    /**
+     * @var \Crazymeeks\Oauth0\Resources\CreateUser
+     */
     protected $userResource;
 
     public function setUp(): void
@@ -36,6 +40,6 @@ class CreateUserTest extends TestCase
             'Authorization' => 'Bearer 4039430493049304'
         ));
 
-        $this->assertArrayHasKey('email', $resource->get());
+        $this->assertArrayHasKey('email', $resource->get(new Oauth0('https://oauth0-test.auth0.com')));
     }
 }

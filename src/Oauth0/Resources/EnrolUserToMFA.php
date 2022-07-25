@@ -5,8 +5,9 @@ namespace Crazymeeks\Oauth0\Resources;
 use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\BaseResource;
 use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
+use Crazymeeks\Oauth0\Contracts\Resources\EnrolUserToMFAInterface;
 
-class EnrolUserToMFA extends BaseResource
+class EnrolUserToMFA extends BaseResource implements EnrolUserToMFAInterface
 {
 
 
@@ -33,9 +34,7 @@ class EnrolUserToMFA extends BaseResource
     }
 
     /**
-     * Get authenticator type
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getAuthenticatorType()
     {
@@ -43,9 +42,7 @@ class EnrolUserToMFA extends BaseResource
     }
 
     /**
-     * Get secret
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getSecret()
     {
@@ -53,9 +50,7 @@ class EnrolUserToMFA extends BaseResource
     }
 
     /**
-     * Get barcode uri with link so can be displayed in <img> tag
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getBarcodeUri()
     {
@@ -63,9 +58,7 @@ class EnrolUserToMFA extends BaseResource
     }
 
     /**
-     * Get real barcode uri
-     *
-     * @return string
+     * @inheritDoc
      */
     public function getRealBarcodeUri()
     {
@@ -73,9 +66,7 @@ class EnrolUserToMFA extends BaseResource
     }
 
     /**
-     * Get recovery codes
-     *
-     * @return array
+     * @inheritDoc
      */
     public function getRecoveryCodes()
     {

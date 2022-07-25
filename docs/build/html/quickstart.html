@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quickstart &mdash; Oauth0 v1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Requirements" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Oauth0
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html#installation">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#request-access-token">Request access token</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#create-user">Create user</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#login-user-without-mfa-enabled">Login User without MFA enabled</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#login-user-with-mfa-enabled">Login User with MFA enabled</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#validate-otp-for-mfa-enabled-only">Validate OTP(for MFA enabled only)</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Oauth0</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Quickstart</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">¶</a></h1>
+<p>This page provide a quick introduction on how to use Oauth0 library.
+If you have not already installed PHP Oauth0, go check the <a class="reference internal" href="overview.html#installation"><span class="std std-ref">Installation</span></a> page</p>
+<p>Before start using this library, make sure you already have <a class="reference external" href="https://auth0.auth0.com/">oauth0</a> account.</p>
+</section>
+<section id="request-access-token">
+<h1>Request access token<a class="headerlink" href="#request-access-token" title="Permalink to this heading">¶</a></h1>
+<p>Before you can make any request to Oauth0 server, you would need an access token.
+Please take note that this token is different from the access token you would use
+after logging/signing in user.</p>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">YourNameSpace</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Oauth0</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Resources\AccessToken</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Provider\ClientSecretId</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleClass</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getAccessToken</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// set client id, you may retrieve your client_id and client_secret</span>
+        <span class="c1">// from your oauth0 account</span>
+        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ClientSecretId</span><span class="p">();</span>
+        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">setClientId</span><span class="p">(</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+               <span class="o">-&gt;</span><span class="na">setClientSecret</span><span class="p">(</span><span class="s1">&#39;myclient-secret&#39;</span><span class="p">);</span>
+
+        <span class="c1">// prepare the resource</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AccessToken</span><span class="p">(</span><span class="nv">$client</span><span class="p">);</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">audience</span> <span class="o">=</span> <span class="s1">&#39;api/v2/&#39;</span><span class="p">;</span>
+        <span class="c1">// grant_type is optional. Default is &#39;client_credentials&#39;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">grant_type</span> <span class="o">=</span> <span class="s1">&#39;client_credentials&#39;</span><span class="p">;</span>
+
+
+        <span class="c1">// Send request to Oauth0 server</span>
+        <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+        <span class="sd">/** @var \Crazymeeks\Oauth0\Resources\AccessToken $resource */</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                       <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+        <span class="c1">// Get the access token</span>
+        <span class="nv">$accessToken</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getToken</span><span class="p">();</span>
+
+        <span class="c1">// You may also retrieve the scope by calling getScope() method.</span>
+        <span class="nv">$scope</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getScope</span><span class="p">();</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="create-user">
+<h1>Create user<a class="headerlink" href="#create-user" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">YourNameSpace</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Resources\CreateUser</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleClass</span>
+<span class="p">{</span>
+
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">createUser</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="c1">//prepare the resource</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CreateUser</span><span class="p">();</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">email</span> <span class="o">=</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">email_verified</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">app_metadata</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">given_name</span> <span class="o">=</span> <span class="s1">&#39;John&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">family_name</span> <span class="o">=</span> <span class="s1">&#39;Doe&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">nickname</span> <span class="o">=</span> <span class="s1">&#39;J&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">picture</span> <span class="o">=</span> <span class="s1">&#39;https://secure.gravatar.com/avatar/15626c5e0c749cb912f9d1ad48dba440?s=480&amp;r=pg&amp;d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">connection</span> <span class="o">=</span> <span class="s1">&#39;Database-Connection&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;password1234&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">verify_email</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+
+
+        <span class="c1">// Send request to Oauth0 server</span>
+        <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+        <span class="sd">/** @var \Crazymeeks\Oauth0\Resources\CreateUser $resource */</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                       <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+        <span class="c1">// response would exactly look like this</span>
+        <span class="cm">/*</span>
+<span class="cm">        {</span>
+<span class="cm">            &quot;blocked&quot;: false,</span>
+<span class="cm">            &quot;created_at&quot;: &quot;2022-07-21T10:02:24.385Z&quot;,</span>
+<span class="cm">            &quot;email&quot;: &quot;john.doe@gmail.com&quot;,</span>
+<span class="cm">            &quot;email_verified&quot;: true,</span>
+<span class="cm">            &quot;family_name&quot;: &quot;Doe&quot;,</span>
+<span class="cm">            &quot;given_name&quot;: &quot;John&quot;,</span>
+<span class="cm">            &quot;identities&quot;: [</span>
+<span class="cm">                {</span>
+<span class="cm">                    &quot;connection&quot;: &quot;Username-Password-Authentication&quot;,</span>
+<span class="cm">                    &quot;user_id&quot;: &quot;62d9243068810179098638724&quot;,</span>
+<span class="cm">                    &quot;provider&quot;: &quot;auth0&quot;,</span>
+<span class="cm">                    &quot;isSocial&quot;: false</span>
+<span class="cm">                }</span>
+<span class="cm">            ],</span>
+<span class="cm">            &quot;name&quot;: &quot;John Doe&quot;,</span>
+<span class="cm">            &quot;nickname&quot;: &quot;j&quot;,</span>
+<span class="cm">            &quot;picture&quot;: &quot;https://secure.gravatar.com/avatar/15626c5e0c749cb912f9d1ad48dba440?s=480&amp;r=pg&amp;d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png&quot;,</span>
+<span class="cm">            &quot;updated_at&quot;: &quot;2022-07-21T10:02:24.385Z&quot;,</span>
+<span class="cm">            &quot;user_id&quot;: &quot;auth0|62d9243068810179098638724&quot;,</span>
+<span class="cm">            &quot;user_metadata&quot;: {}</span>
+<span class="cm">        }</span>
+<span class="cm">        */</span>
+        <span class="c1">// You may retrieve each by calling and getResponse() method and chain with attribute</span>
+        <span class="c1">// you want to retrieve</span>
+        <span class="nv">$email</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">email</span><span class="p">;</span>
+        <span class="nv">$familyName</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">family_name</span><span class="p">;</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="login-user-without-mfa-enabled">
+<h1>Login User without MFA enabled<a class="headerlink" href="#login-user-without-mfa-enabled" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">YourNameSpace</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Oauth0</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Resources\LoginUser</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Provider\ClientSecretId</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleClass</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">loginUser</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// set client id, you may retrieve your client_id and client_secret</span>
+        <span class="c1">// from your oauth0 account</span>
+        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ClientSecretId</span><span class="p">();</span>
+        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">setClientId</span><span class="p">(</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+               <span class="o">-&gt;</span><span class="na">setClientSecret</span><span class="p">(</span><span class="s1">&#39;myclient-secret&#39;</span><span class="p">);</span>
+
+        <span class="c1">// prepare the resource</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LoginUser</span><span class="p">(</span><span class="nv">$client</span><span class="p">);</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">username</span> <span class="o">=</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;password1234&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">connection</span> <span class="o">=</span> <span class="s1">&#39;Connetion-Database&#39;</span><span class="p">;</span>
+
+
+        <span class="c1">// Send request to Oauth0 server</span>
+        <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+        <span class="sd">/** @var \Crazymeeks\Oauth0\Resources\LoginUser $resource */</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                       <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+        <span class="c1">// Get the access token</span>
+        <span class="nv">$accessToken</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getAccessToken</span><span class="p">();</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="login-user-with-mfa-enabled">
+<h1>Login User with MFA enabled<a class="headerlink" href="#login-user-with-mfa-enabled" title="Permalink to this heading">¶</a></h1>
+<p>When MFA is enabled on your oauth0 account, <strong>Crazymeeks\Oauth0\Oauth0::execute()</strong> method
+will throw <strong>Crazymeeks\Oauth0\Exception\ResourceException</strong>. In this case, you would need
+to enrol user to mfa. You can do this by using <strong>Crazymeeks\Oauth0\Resources\EnrolUserToMFA</strong>.</p>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">YourNameSpace</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Oauth0</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Resources\LoginUser</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Provider\ClientSecretId</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleClass</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">loginUser</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// set client id, you may retrieve your client_id and client_secret</span>
+        <span class="c1">// from your oauth0 account</span>
+        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ClientSecretId</span><span class="p">();</span>
+        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">setClientId</span><span class="p">(</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+               <span class="o">-&gt;</span><span class="na">setClientSecret</span><span class="p">(</span><span class="s1">&#39;myclient-secret&#39;</span><span class="p">);</span>
+
+        <span class="c1">// prepare the resource</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LoginUser</span><span class="p">(</span><span class="nv">$client</span><span class="p">);</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">username</span> <span class="o">=</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;password1234&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">connection</span> <span class="o">=</span> <span class="s1">&#39;Connetion-Database&#39;</span><span class="p">;</span>
+
+
+        <span class="c1">// Send request to Oauth0 server</span>
+        <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+        <span class="sd">/** @var \Crazymeeks\Oauth0\Resources\LoginUser $resource */</span>
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                        <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">ResourceException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// oauth0 mfa is required</span>
+            <span class="c1">// extra steps needs to be done by the developer</span>
+            <span class="c1">// when mfa is required. Dev can actually copy</span>
+            <span class="c1">// and paste this code</span>
+
+            <span class="nv">$response</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">());</span>
+
+            <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+            <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EnrolUserToMFA</span><span class="p">(</span><span class="nv">$client</span><span class="p">);</span>
+
+            <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">scope</span> <span class="o">=</span> <span class="s1">&#39;enrol&#39;</span><span class="p">;</span> <span class="c1">// optional</span>
+            <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">audience</span> <span class="o">=</span> <span class="s1">&#39;mfa&#39;</span><span class="p">;</span>
+            <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;Authorization&#39;</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;Bearer %s&quot;</span><span class="p">,</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">mfa_token</span><span class="p">),</span>
+            <span class="p">));</span>
+
+            <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                        <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+
+            <span class="c1">// barcode uri, you should display this in an &lt;img&gt; tag so user</span>
+            <span class="c1">// can scan it using google authenticator app</span>
+            <span class="nv">$barcodeUri</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getBarcodeUri</span><span class="p">();</span>
+            <span class="c1">// other methods</span>
+            <span class="sd">/** @var string */</span>
+            <span class="nv">$authType</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getAuthenticatorType</span><span class="p">();</span>
+            <span class="sd">/** @var string */</span>
+            <span class="nv">$secret</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getSecret</span><span class="p">();</span>
+            <span class="sd">/**</span>
+<span class="sd">             * @var array(&#39;FDLFOELDOEILRKELFJLKDFDFD&#39;, &#39;LDIOE093043DFDFKLIOERU&#39;)</span>
+<span class="sd">             */</span>
+            <span class="nv">$recoveryCodes</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getRecoveryCodes</span><span class="p">();</span>
+
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="validate-otp-for-mfa-enabled-only">
+<h1>Validate OTP(for MFA enabled only)<a class="headerlink" href="#validate-otp-for-mfa-enabled-only" title="Permalink to this heading">¶</a></h1>
+<p>To validate OTP code after user scanned the qr code using authenticator app like google authenticator,
+you can validate it using the code below.</p>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">YourNameSpace</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Oauth0</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Resources\ValidateMFAOTP</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Provider\ClientSecretId</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleClass</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">loginUser</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// set client id, you may retrieve your client_id and client_secret</span>
+        <span class="c1">// from your oauth0 account</span>
+        <span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ClientSecretId</span><span class="p">();</span>
+        <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">setClientId</span><span class="p">(</span><span class="s1">&#39;1234&#39;</span><span class="p">)</span>
+               <span class="o">-&gt;</span><span class="na">setClientSecret</span><span class="p">(</span><span class="s1">&#39;myclient-secret&#39;</span><span class="p">);</span>
+
+        <span class="c1">// prepare the resource</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ValidateMFAOTP</span><span class="p">(</span><span class="nv">$client</span><span class="p">);</span>
+        <span class="c1">// mfa token retrieve from previous step.</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">mfa_token</span> <span class="o">=</span> <span class="s2">&quot;Fe26.2*272dc2*e568ea9b8814975c8c4c2984348c755666f82e40ea57c2e71ce81099fa187d04*c0ix7ZkiR5AN6MkVg-e1OA*3qJ-CJMA6bTOWn4PrmFq0-CEpWPpY__jBAY1CD1uFKxC__tkxs668VErtaOLB21HamhJE2gGQHXfCrdMbhURB-bxt2D_6ICPsXrof9JU_-1YjpFd5tGCciRx7QRk3J0XQaNWoZ3GsmtCml1aWuzxDNfKFdFWF7HJMtwmc_myv2t7wDXs0DKdVGDt34wvU_-Shrh4ZrqcPpZpLeuNZwZiEb_ffjO5Yo4VMW9A7cgaV5Emv293u02l6AVtDGfAemEkz70pMbgLUrR7yqQJ9m8KwHmNbYrbGFVzkvpKtRBG2xK3N6OJYQUkU-iL316zNiM05RsgUe4ttByu8B90K2Vz4Y8-HPvMHG7BXkDKxABJY5vVua4tyPLdreDfn1QafcT4CMVk3-6yXxTnVPsT4fizt3-HSJTldZ4msr8zj8sS6cFBwiJz3leDeX5INstCWi-V-ILmui1m2Wwsx0kb8GtrGAdKZF1lDY3NFoE6i-5z_Rc8NcDQHdFLF-2BlLqKhyzCZj0xIPfqDPYeOziMf2JyMU_WiSYrxcY-lY01aHMMYRJwhSrSUFtKmtZ7Bw7JZHGA5ZkYyNIUNYH8iflxgCGJDrggNu6XcRZDu0oHn-ZcwN7UPeZkwbs_4ext25nKOLqucXraOci0IzqNwoaijyRTsexpKpNaqB7s9imzKOiij3qEFminbSSBVmj8uih3F6pnpVu7pld3wN04zfRQi7-Q07hTnRS7Jj1xDTW2mT21oTQCWzVmBO4NvR161xBe3jAlMC3__s3Adh9dee43KaHQPvOgYfxYp-HM8wlC-QYKcUJH5umeu0RcYW7wT2ktQEwJO2bgdflHCv32vkzyjziuXP9AQ1tpg7tID2Tg52LAX1AH_cwXd0L7PjtEhXR8znJ2cyGcmY8xP-2IHjYG1ulbLd-NHHAdTuo2yTIWSPpgNzE9sN_aprtYRBpLONZJNLvnkqc7ssPlFWyBFZTDhnZeVOoi0LrFJ5_u57NZgeJ_ze99xqU54kca4Ig-LMi_bzvbsXzIHD8EQvDXcGEeBppYGjB56-kNu-QCmNgX7aBtokOUNs87r4Dkptpraeg12cVGd9kUpR6Tu5zIstb3cs4PhT9EYqYUpraIjHxeZBiDzWc-1IjYIebKeHWj2g_ImDtPB6RiB0X8hkvZ_If1IiPJTlEPMiwHqZUJJTiLcadOEcXvPaOnXS065sh0ZT0xxQEzVawq0uR9Ehkxr5YwYZIcg0LC4M-tJdsVgoprW1lCXFwnDXsRNPbjaBOlo-rvExBtMJxulzod-ULlqRlfgZdAFXpSst3lNt-502w1oSPmi6rX8sFSoaPN3LKzmllupaEuzi88nklZzL0ZHBXi5lfKc6SYgFv34oZh47awrWyOKPpAYpotd8Kz9joiU5kAi6w7UZRlisFRd-w8IRjqFbhdgOKTjq1E4KOwtdwMJqjvY5Q*1658440556960*ec6236820f16c26fb6c6b164a7cc4ba20260af1d&quot;</span><span class="p">;</span>
+        <span class="c1">// OTP entered by user on your app/website</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">otp</span> <span class="o">=</span> <span class="s2">&quot;940518&quot;</span><span class="p">;</span>
+
+
+        <span class="c1">// Send request to Oauth0 server</span>
+        <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+        <span class="sd">/** @var \Crazymeeks\Oauth0\Resources\LoginUser $resource */</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+
+        <span class="nv">$accessToken</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getAccessToken</span><span class="p">();</span>
+        <span class="nv">$scope</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getScope</span><span class="p">();</span>
+        <span class="nv">$expiresIn</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getExpiresIn</span><span class="p">();</span>
+        <span class="nv">$tokenType</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getTokenType</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-left" title="Requirements" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Jeff Claud.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
