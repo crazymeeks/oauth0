@@ -2,9 +2,4 @@
 	Pure Oauth0 API implementation in PHP
 </h1>
 
-#
-Documentation will be released soon!
-#
-For now, you may read tests cases as it contains codes on how this library works.
-#
-Author: Jeff Claud
+Documentation is available [here](https://oauth0.readthedocs.io/en/latest/)
