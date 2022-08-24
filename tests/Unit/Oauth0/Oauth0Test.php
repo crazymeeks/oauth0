@@ -10,6 +10,7 @@ use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\LoginUser;
 use Crazymeeks\Oauth0\Resources\CreateUser;
 use Crazymeeks\Oauth0\Resources\AccessToken;
+use Crazymeeks\Oauth0\Resources\ResetUserMFA;
 use Crazymeeks\Oauth0\Provider\ClientSecretId;
 use Crazymeeks\Oauth0\Resources\EnrolUserToMFA;
 use Crazymeeks\Oauth0\Resources\ValidateMFAOTP;
@@ -171,5 +172,41 @@ class Oauth0Test extends TestCase
         $this->assertSame('openid profile email address phone', $resource->getScope());
         $this->assertSame(86400, $resource->getExpiresIn());
         $this->assertSame('Bearer', $resource->getTokenType());
+    }
+
+    public function testShouldResetUserMFA()
+    {
+        $resource = new ResetUserMFA();
+
+        $resource->user_id = 'auth0|62d9243068810176e8346c';
+
+        $resource->setHeaders(
+            array(
+                'Authorization' => 'Bearer 4039430493049304'
+            )
+        );
+        $this->curl->shouldReceive('to')
+                   ->with(Mockery::any())
+                   ->andReturnSelf();
+
+        $this->curl->shouldReceive('withData')
+                   ->with([])
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('delete')
+                   ->andReturn(json_decode(
+                    json_encode(
+                        ['status' => 204]
+                    )
+                   ));
+        $this->curl->shouldReceive('withHeaders')
+                   ->with(Mockery::any())
+                   ->andReturnSelf();
+        $this->curl->shouldReceive('returnResponseObject')
+                   ->andReturnSelf();
+        $oauth0 = new Oauth0('https://oauth0-test.auth0.com', $this->curl);
+        $resource = $oauth0->setResource($resource)
+                           ->execute();
+    
+        $this->assertTrue(true);
     }
 }

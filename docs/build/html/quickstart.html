@@ -46,6 +46,7 @@
 <li class="toctree-l1"><a class="reference internal" href="#login-user-without-mfa-enabled">Login User without MFA enabled</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#login-user-with-mfa-enabled">Login User with MFA enabled</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#validate-otp-for-mfa-enabled-only">Validate OTP(for MFA enabled only)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#reset-user-s-mfa">Reset User’s MFA</a></li>
 </ul>
 
         </div>
@@ -79,7 +80,7 @@ If you have not already installed PHP Oauth0, go check the <a class="reference i
 <p>Before start using this library, make sure you already have <a class="reference external" href="https://auth0.auth0.com/">oauth0</a> account.</p>
 </section>
 <section id="request-access-token">
-<h1>Request access token<a class="headerlink" href="#request-access-token" title="Permalink to this heading">¶</a></h1>
+<span id="id1"></span><h1>Request access token<a class="headerlink" href="#request-access-token" title="Permalink to this heading">¶</a></h1>
 <p>Before you can make any request to Oauth0 server, you would need an access token.
 Please take note that this token is different from the access token you would use
 after logging/signing in user.</p>
@@ -361,6 +362,46 @@ you can validate it using the code below.</p>
         <span class="nv">$scope</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getScope</span><span class="p">();</span>
         <span class="nv">$expiresIn</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getExpiresIn</span><span class="p">();</span>
         <span class="nv">$tokenType</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getTokenType</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="reset-user-s-mfa">
+<h1>Reset User’s MFA<a class="headerlink" href="#reset-user-s-mfa" title="Permalink to this heading">¶</a></h1>
+<p>To reset MFA of a user, an access token. Please check <strong>Request access token</strong> page.
+Note that this don’t have any content in the response. The status returned by Oauth0
+in this action is 204.</p>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">YourNameSpace</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Oauth0</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Resources\ResetUserMFA</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleClass</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">loginUser</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="c1">// prepare the resource</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ResetUserMFA</span><span class="p">();</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">user_id</span> <span class="o">=</span> <span class="s1">&#39;auth0|62d9243068810176e8346c&#39;</span><span class="p">;</span>
+
+        <span class="c1">// set access token header</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span>
+            <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;Authorization&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Bearer 4039430493049304&#39;</span>
+            <span class="p">)</span>
+        <span class="p">);</span>
+
+        <span class="c1">// Send request to Oauth0 server</span>
+        <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+        <span class="sd">/** @var \Crazymeeks\Oauth0\Resources\LoginUser $resource */</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                    <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>

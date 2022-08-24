@@ -100,11 +100,13 @@ class Oauth0
         $response = $curl->withData($this->oauthResource->get($this))
                          ->returnResponseObject()
                          ->{$method}();
-
-        if (!in_array($response->status, [200, 201])) {
+        
+        if (!in_array($response->status, [200, 201, 204])) {
             throw new ResourceException($response->content);
         }
-        
+        if (!property_exists($response, 'content')) {
+            return $this->oauthResource->setResponse(null);
+        }
         return $this->oauthResource->setResponse($response->content);
     }
 

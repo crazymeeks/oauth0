@@ -20,7 +20,7 @@ abstract class BaseResource implements ResourceInterface
      *
      * @var object
      */
-    protected $oauthResponse;
+    protected $oauthResponse = null;
 
 
     /**
@@ -115,7 +115,7 @@ abstract class BaseResource implements ResourceInterface
      *
      * @return $this
      */
-    public function setResponse(string $json)
+    public function setResponse(string $json = null)
     {
         $this->oauthResponse = json_decode($json);
         return $this;

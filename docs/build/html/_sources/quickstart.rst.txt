@@ -7,6 +7,8 @@ If you have not already installed PHP Oauth0, go check the :ref:`installation` p
 
 Before start using this library, make sure you already have `oauth0 <https://auth0.auth0.com/>`_ account.
 
+.. _request access token:
+
 ====================
 Request access token
 ====================
@@ -309,5 +311,48 @@ you can validate it using the code below.
             $scope = $resource->getScope();
             $expiresIn = $resource->getExpiresIn();
             $tokenType = $resource->getTokenType();
+        }
+    }
+
+=================
+Reset User's MFA
+=================
+
+To reset MFA of a user, an access token. Please check **Request access token** page.
+Note that this don't have any content in the response. The status returned by Oauth0
+in this action is 204.
+
+.. code-block:: php
+
+    <?php
+
+    namespace YourNameSpace;
+
+    use Crazymeeks\Oauth0\Oauth0;
+    use Crazymeeks\Oauth0\Resources\ResetUserMFA;
+
+    class ExampleClass
+    {
+        public function loginUser()
+        {
+            
+            // prepare the resource
+            $resource = new ResetUserMFA();
+            $resource->user_id = 'auth0|62d9243068810176e8346c';
+
+            // set access token header
+            $resource->setHeaders(
+                array(
+                    'Authorization' => 'Bearer 4039430493049304'
+                )
+            );
+
+            // Send request to Oauth0 server
+            $oauth0 = new Oauth0('https://oauth0-test.auth0.com');
+
+            /** @var \Crazymeeks\Oauth0\Resources\LoginUser $resource */
+            $resource = $oauth0->setResource($resource)
+                        ->execute();
+            
         }
     }
