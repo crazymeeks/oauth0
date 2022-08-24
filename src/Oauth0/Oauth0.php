@@ -98,6 +98,7 @@ class Oauth0
         $method = $this->oauthResource->getHttpMethod();
 
         $response = $curl->withData($this->oauthResource->get($this))
+                         ->asJsonRequest()
                          ->returnResponseObject()
                          ->{$method}();
         
