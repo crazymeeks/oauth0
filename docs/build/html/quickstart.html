@@ -43,6 +43,8 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#request-access-token">Request access token</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#create-user">Create user</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#update-user">Update user</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#retrieve-user-by-email-address">Retrieve user by email address</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#login-user-without-mfa-enabled">Login User without MFA enabled</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#login-user-with-mfa-enabled">Login User with MFA enabled</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#validate-otp-for-mfa-enabled-only">Validate OTP(for MFA enabled only)</a></li>
@@ -198,6 +200,147 @@ after logging/signing in user.</p>
         <span class="c1">// you want to retrieve</span>
         <span class="nv">$email</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">email</span><span class="p">;</span>
         <span class="nv">$familyName</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">family_name</span><span class="p">;</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="update-user">
+<h1>Update user<a class="headerlink" href="#update-user" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">YourNameSpace</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Resources\UpdateUser</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleClass</span>
+<span class="p">{</span>
+
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">updaetUser</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="c1">//prepare the resource</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">UpdateUser</span><span class="p">();</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">setId</span><span class="p">(</span><span class="s1">&#39;auth0|62d908310c0294bd8a60f12d&#39;</span><span class="p">);</span>
+
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">email_verified</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">app_metadata</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\stdClass</span><span class="p">();</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">given_name</span> <span class="o">=</span> <span class="s1">&#39;John&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">family_name</span> <span class="o">=</span> <span class="s1">&#39;Doe&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">nickname</span> <span class="o">=</span> <span class="s1">&#39;J&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">picture</span> <span class="o">=</span> <span class="s1">&#39;https://secure.gravatar.com/avatar/15626c5e0c749cb912f9d1ad48dba440?s=480&amp;r=pg&amp;d=https%3A%2F%2Fssl.gstatic.com%2Fs2%2Fprofiles%2Fimages%2Fsilhouette80.png&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">connection</span> <span class="o">=</span> <span class="s1">&#39;Database-Connection&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;password1234&#39;</span><span class="p">;</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">verify_email</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+
+
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s2">&quot;Authorization&quot;</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlF6WkZSa0UwTkRCR05qRkRNRVJEUXpkRE5VUkdNakEzUmtSQk56UXhSRE5CTkRoQlFqQXhNZyJ9.eyJpc3MiOiJodHRwczovL3NlY3VuYS10ZXN0LmF1dGgwLmNvbS8iLCJzdWIiOiJ4MXZtc2ZoNDVqVDc1QzFVR2VoYVlIdkYxdDhMaEt1RkBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9zZWN1bmEtdGVzdC5hdXRoMC5jb20vYXBpL3YyLyIsImlhdCI6MTY2MTM0NTU5OSwiZXhwIjoxNjYxNDMxOTk5LCJhenAiOiJ4MXZtc2ZoNDVqVDc1QzFVR2VoYVlIdkYxdDhMaEt1RiIsInNjb3BlIjoicmVhZDpjbGllbnRfZ3JhbnRzIGNyZWF0ZTpjbGllbnRfZ3JhbnRzIGRlbGV0ZTpjbGllbnRfZ3JhbnRzIHVwZGF0ZTpjbGllbnRfZ3JhbnRzIHJlYWQ6dXNlcnMgdXBkYXRlOnVzZXJzIGRlbGV0ZTp1c2VycyBjcmVhdGU6dXNlcnMgcmVhZDp1c2Vyc19hcHBfbWV0YWRhdGEgdXBkYXRlOnVzZXJzX2FwcF9tZXRhZGF0YSBkZWxldGU6dXNlcnNfYXBwX21ldGFkYXRhIGNyZWF0ZTp1c2Vyc19hcHBfbWV0YWRhdGEgcmVhZDp1c2VyX2N1c3RvbV9ibG9ja3MgY3JlYXRlOnVzZXJfY3VzdG9tX2Jsb2NrcyBkZWxldGU6dXNlcl9jdXN0b21fYmxvY2tzIGNyZWF0ZTp1c2VyX3RpY2tldHMgcmVhZDpjbGllbnRzIHVwZGF0ZTpjbGllbnRzIGRlbGV0ZTpjbGllbnRzIGNyZWF0ZTpjbGllbnRzIHJlYWQ6Y2xpZW50X2tleXMgdXBkYXRlOmNsaWVudF9rZXlzIGRlbGV0ZTpjbGllbnRfa2V5cyBjcmVhdGU6Y2xpZW50X2tleXMgcmVhZDpjb25uZWN0aW9ucyB1cGRhdGU6Y29ubmVjdGlvbnMgZGVsZXRlOmNvbm5lY3Rpb25zIGNyZWF0ZTpjb25uZWN0aW9ucyByZWFkOnJlc291cmNlX3NlcnZlcnMgdXBkYXRlOnJlc291cmNlX3NlcnZlcnMgZGVsZXRlOnJlc291cmNlX3NlcnZlcnMgY3JlYXRlOnJlc291cmNlX3NlcnZlcnMgcmVhZDpkZXZpY2VfY3JlZGVudGlhbHMgdXBkYXRlOmRldmljZV9jcmVkZW50aWFscyBkZWxldGU6ZGV2aWNlX2NyZWRlbnRpYWxzIGNyZWF0ZTpkZXZpY2VfY3JlZGVudGlhbHMgcmVhZDpydWxlcyB1cGRhdGU6cnVsZXMgZGVsZXRlOnJ1bGVzIGNyZWF0ZTpydWxlcyByZWFkOnJ1bGVzX2NvbmZpZ3MgdXBkYXRlOnJ1bGVzX2NvbmZpZ3MgZGVsZXRlOnJ1bGVzX2NvbmZpZ3MgcmVhZDpob29rcyB1cGRhdGU6aG9va3MgZGVsZXRlOmhvb2tzIGNyZWF0ZTpob29rcyByZWFkOmFjdGlvbnMgdXBkYXRlOmFjdGlvbnMgZGVsZXRlOmFjdGlvbnMgY3JlYXRlOmFjdGlvbnMgcmVhZDplbWFpbF9wcm92aWRlciB1cGRhdGU6ZW1haWxfcHJvdmlkZXIgZGVsZXRlOmVtYWlsX3Byb3ZpZGVyIGNyZWF0ZTplbWFpbF9wcm92aWRlciBibGFja2xpc3Q6dG9rZW5zIHJlYWQ6c3RhdHMgcmVhZDppbnNpZ2h0cyByZWFkOnRlbmFudF9zZXR0aW5ncyB1cGRhdGU6dGVuYW50X3NldHRpbmdzIHJlYWQ6bG9ncyByZWFkOmxvZ3NfdXNlcnMgcmVhZDpzaGllbGRzIGNyZWF0ZTpzaGllbGRzIHVwZGF0ZTpzaGllbGRzIGRlbGV0ZTpzaGllbGRzIHJlYWQ6YW5vbWFseV9ibG9ja3MgZGVsZXRlOmFub21hbHlfYmxvY2tzIHVwZGF0ZTp0cmlnZ2VycyByZWFkOnRyaWdnZXJzIHJlYWQ6Z3JhbnRzIGRlbGV0ZTpncmFudHMgcmVhZDpndWFyZGlhbl9mYWN0b3JzIHVwZGF0ZTpndWFyZGlhbl9mYWN0b3JzIHJlYWQ6Z3VhcmRpYW5fZW5yb2xsbWVudHMgZGVsZXRlOmd1YXJkaWFuX2Vucm9sbG1lbnRzIGNyZWF0ZTpndWFyZGlhbl9lbnJvbGxtZW50X3RpY2tldHMgcmVhZDp1c2VyX2lkcF90b2tlbnMgY3JlYXRlOnBhc3N3b3Jkc19jaGVja2luZ19qb2IgZGVsZXRlOnBhc3N3b3Jkc19jaGVja2luZ19qb2IgcmVhZDpjdXN0b21fZG9tYWlucyBkZWxldGU6Y3VzdG9tX2RvbWFpbnMgY3JlYXRlOmN1c3RvbV9kb21haW5zIHVwZGF0ZTpjdXN0b21fZG9tYWlucyByZWFkOmVtYWlsX3RlbXBsYXRlcyBjcmVhdGU6ZW1haWxfdGVtcGxhdGVzIHVwZGF0ZTplbWFpbF90ZW1wbGF0ZXMgcmVhZDptZmFfcG9saWNpZXMgdXBkYXRlOm1mYV9wb2xpY2llcyByZWFkOnJvbGVzIGNyZWF0ZTpyb2xlcyBkZWxldGU6cm9sZXMgdXBkYXRlOnJvbGVzIHJlYWQ6cHJvbXB0cyB1cGRhdGU6cHJvbXB0cyByZWFkOmJyYW5kaW5nIHVwZGF0ZTpicmFuZGluZyBkZWxldGU6YnJhbmRpbmcgcmVhZDpsb2dfc3RyZWFtcyBjcmVhdGU6bG9nX3N0cmVhbXMgZGVsZXRlOmxvZ19zdHJlYW1zIHVwZGF0ZTpsb2dfc3RyZWFtcyBjcmVhdGU6c2lnbmluZ19rZXlzIHJlYWQ6c2lnbmluZ19rZXlzIHVwZGF0ZTpzaWduaW5nX2tleXMgcmVhZDpsaW1pdHMgdXBkYXRlOmxpbWl0cyBjcmVhdGU6cm9sZV9tZW1iZXJzIHJlYWQ6cm9sZV9tZW1iZXJzIGRlbGV0ZTpyb2xlX21lbWJlcnMgcmVhZDplbnRpdGxlbWVudHMgcmVhZDphdHRhY2tfcHJvdGVjdGlvbiB1cGRhdGU6YXR0YWNrX3Byb3RlY3Rpb24gcmVhZDpvcmdhbml6YXRpb25zX3N1bW1hcnkgcmVhZDpvcmdhbml6YXRpb25zIHVwZGF0ZTpvcmdhbml6YXRpb25zIGNyZWF0ZTpvcmdhbml6YXRpb25zIGRlbGV0ZTpvcmdhbml6YXRpb25zIGNyZWF0ZTpvcmdhbml6YXRpb25fbWVtYmVycyByZWFkOm9yZ2FuaXphdGlvbl9tZW1iZXJzIGRlbGV0ZTpvcmdhbml6YXRpb25fbWVtYmVycyBjcmVhdGU6b3JnYW5pemF0aW9uX2Nvbm5lY3Rpb25zIHJlYWQ6b3JnYW5pemF0aW9uX2Nvbm5lY3Rpb25zIHVwZGF0ZTpvcmdhbml6YXRpb25fY29ubmVjdGlvbnMgZGVsZXRlOm9yZ2FuaXphdGlvbl9jb25uZWN0aW9ucyBjcmVhdGU6b3JnYW5pemF0aW9uX21lbWJlcl9yb2xlcyByZWFkOm9yZ2FuaXphdGlvbl9tZW1iZXJfcm9sZXMgZGVsZXRlOm9yZ2FuaXphdGlvbl9tZW1iZXJfcm9sZXMgY3JlYXRlOm9yZ2FuaXphdGlvbl9pbnZpdGF0aW9ucyByZWFkOm9yZ2FuaXphdGlvbl9pbnZpdGF0aW9ucyBkZWxldGU6b3JnYW5pemF0aW9uX2ludml0YXRpb25zIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.DOZXmqEQBk4r9oMw6goV8h_QyDDAwhzdW6WaT4Th86asi3glIw3XCgZ6WWPxPIjtld_XxuzONMQyrMd1V1uPZ44zsLFmNsDKgmGRAB74XfBMLjNvgR1W9V8IF94_aFr61mGhQTj6cxvwThsTZTmy5uCDXjD_a9vMNi8JObueBPt1C09VYemno3Hv2r8cb6cXBAzfA2n_eEB62aF3kezHP8D-ME1iL6uFJvyAlM-JN-om1kq6YzZKBxqI8baEKlhP61PJgcTveyfCNBiUrc_eag-cg0trQUbnDbI6QqwJU01D6nncFpGmKaqeUG7Q2TsyXVnFveWZ6EXWXPgaIwAcmw&quot;</span><span class="p">)</span>
+        <span class="p">));</span>
+
+        <span class="c1">// Send request to Oauth0 server</span>
+        <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+        <span class="sd">/** @var \Crazymeeks\Oauth0\Resources\CreateUser $resource */</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                       <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+        <span class="c1">// response would exactly look like this</span>
+        <span class="cm">/*</span>
+<span class="cm">        {</span>
+<span class="cm">            &quot;created_at&quot;: &quot;2022-07-21T08:02:57.599Z&quot;,</span>
+<span class="cm">            &quot;email&quot;: &quot;test@test.com&quot;,</span>
+<span class="cm">            &quot;email_verified&quot;: true,</span>
+<span class="cm">            &quot;identities&quot;: [</span>
+<span class="cm">                {</span>
+<span class="cm">                    &quot;user_id&quot;: &quot;62d908310c0294bd8a60455ed&quot;,</span>
+<span class="cm">                    &quot;provider&quot;: &quot;auth0&quot;,</span>
+<span class="cm">                    &quot;connection&quot;: &quot;Username-Password-Authentication&quot;,</span>
+<span class="cm">                    &quot;isSocial&quot;: false</span>
+<span class="cm">                }</span>
+<span class="cm">            ],</span>
+<span class="cm">            &quot;name&quot;: &quot;test@test.com&quot;,</span>
+<span class="cm">            &quot;nickname&quot;: &quot;Test&quot;,</span>
+<span class="cm">            &quot;picture&quot;: &quot;https://s.gravatar.com/avatar/f8b33c4b3fe021ee5f45180f8620441d?s=480&amp;r=pg&amp;d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fje.png&quot;,</span>
+<span class="cm">            &quot;updated_at&quot;: &quot;2022-08-25T00:32:43.012Z&quot;,</span>
+<span class="cm">            &quot;user_id&quot;: &quot;auth0|62d908310c0294bd8a60455ed&quot;,</span>
+<span class="cm">            &quot;last_ip&quot;: &quot;222.127.137.66&quot;,</span>
+<span class="cm">            &quot;last_login&quot;: &quot;2022-07-21T09:09:27.051Z&quot;,</span>
+<span class="cm">            &quot;logins_count&quot;: 3</span>
+<span class="cm">        }</span>
+<span class="cm">        */</span>
+        <span class="c1">// You may retrieve each by calling and getResponse() method and chain with attribute</span>
+        <span class="c1">// you want to retrieve</span>
+        <span class="nv">$userId</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">user_id</span><span class="p">;</span>
+        <span class="nv">$nickName</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">nickname</span><span class="p">;</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="retrieve-user-by-email-address">
+<h1>Retrieve user by email address<a class="headerlink" href="#retrieve-user-by-email-address" title="Permalink to this heading">¶</a></h1>
+<div class="highlight-php notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">YourNameSpace</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Crazymeeks\Oauth0\Resources\RetrieveUserByEmail</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ExampleClass</span>
+<span class="p">{</span>
+
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">updaetUser</span><span class="p">()</span>
+    <span class="p">{</span>
+
+        <span class="c1">//prepare the resource</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">UpdateUser</span><span class="p">();</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">email</span> <span class="o">=</span> <span class="s1">&#39;test@gmail.com&#39;</span><span class="p">;</span>
+
+
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s2">&quot;Authorization&quot;</span> <span class="o">=&gt;</span> <span class="nb">sprintf</span><span class="p">(</span><span class="s2">&quot;Bearer euy-34-9304&quot;</span><span class="p">)</span>
+        <span class="p">));</span>
+
+        <span class="c1">// Send request to Oauth0 server</span>
+        <span class="nv">$oauth0</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Oauth0</span><span class="p">(</span><span class="s1">&#39;https://oauth0-test.auth0.com&#39;</span><span class="p">);</span>
+
+        <span class="sd">/** @var \Crazymeeks\Oauth0\Resources\CreateUser $resource */</span>
+        <span class="nv">$resource</span> <span class="o">=</span> <span class="nv">$oauth0</span><span class="o">-&gt;</span><span class="na">setResource</span><span class="p">(</span><span class="nv">$resource</span><span class="p">)</span>
+                       <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+        <span class="c1">// response would exactly look like this</span>
+        <span class="cm">/*</span>
+<span class="cm">        {</span>
+<span class="cm">            &quot;created_at&quot;: &quot;2022-07-21T08:02:57.599Z&quot;,</span>
+<span class="cm">            &quot;email&quot;: &quot;test@test.com&quot;,</span>
+<span class="cm">            &quot;email_verified&quot;: true,</span>
+<span class="cm">            &quot;identities&quot;: [</span>
+<span class="cm">                {</span>
+<span class="cm">                    &quot;user_id&quot;: &quot;62d908310c0294bd8a60455ed&quot;,</span>
+<span class="cm">                    &quot;provider&quot;: &quot;auth0&quot;,</span>
+<span class="cm">                    &quot;connection&quot;: &quot;Username-Password-Authentication&quot;,</span>
+<span class="cm">                    &quot;isSocial&quot;: false</span>
+<span class="cm">                }</span>
+<span class="cm">            ],</span>
+<span class="cm">            &quot;name&quot;: &quot;test@test.com&quot;,</span>
+<span class="cm">            &quot;nickname&quot;: &quot;Test&quot;,</span>
+<span class="cm">            &quot;picture&quot;: &quot;https://s.gravatar.com/avatar/f8b33c4b3fe021ee5f45180f8620441d?s=480&amp;r=pg&amp;d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fje.png&quot;,</span>
+<span class="cm">            &quot;updated_at&quot;: &quot;2022-08-25T00:32:43.012Z&quot;,</span>
+<span class="cm">            &quot;user_id&quot;: &quot;auth0|62d908310c0294bd8a60455ed&quot;,</span>
+<span class="cm">            &quot;last_ip&quot;: &quot;222.127.137.66&quot;,</span>
+<span class="cm">            &quot;last_login&quot;: &quot;2022-07-21T09:09:27.051Z&quot;,</span>
+<span class="cm">            &quot;logins_count&quot;: 3</span>
+<span class="cm">        }</span>
+<span class="cm">        */</span>
+        <span class="c1">// You may retrieve each by calling and getResponse() method and chain with attribute</span>
+        <span class="c1">// you want to retrieve</span>
+        <span class="nv">$userId</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">user_id</span><span class="p">;</span>
+        <span class="nv">$nickName</span> <span class="o">=</span> <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">nickname</span><span class="p">;</span>
 
     <span class="p">}</span>
 <span class="p">}</span>
