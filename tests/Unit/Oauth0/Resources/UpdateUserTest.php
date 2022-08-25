@@ -4,26 +4,27 @@ namespace Tests\Unit\Oauth0\Resources;
 
 use Tests\TestCase;
 use Crazymeeks\Oauth0\Oauth0;
-use Crazymeeks\Oauth0\Resources\CreateUser;
+use Crazymeeks\Oauth0\Resources\UpdateUser;
 
-class CreateUserTest extends TestCase
+class UpdateUserTest extends TestCase
 {
 
     /**
-     * @var \Crazymeeks\Oauth0\Resources\CreateUser
+     * @var \Crazymeeks\Oauth0\Resources\UpdateUser
      */
     protected $userResource;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->userResource = new CreateUser();
+        $this->userResource = new UpdateUser();
     }
 
-    public function testShouldCreateUser()
+    public function testShouldUpdateUser()
     {
         $resource = $this->userResource;
-        $resource->email = 'john.doe@example.com';
+        $resource->setId('auth0|507f1f77bcf86cd799439020');
+        // $resource->email = 'john.doe@example.com';
         $resource->email_verified = true;
         $resource->app_metadata = new \stdClass();
         $resource->given_name = 'John';
@@ -40,6 +41,6 @@ class CreateUserTest extends TestCase
             'Authorization' => 'Bearer 4039430493049304'
         ));
 
-        $this->assertArrayHasKey('email', $resource->get(new Oauth0('https://oauth0-test.auth0.com')));
+        $this->assertArrayHasKey('email_verified', $resource->get(new Oauth0('https://oauth0-test.auth0.com')));
     }
 }
