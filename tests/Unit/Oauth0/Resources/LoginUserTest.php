@@ -6,13 +6,11 @@ namespace Tests\Unit\Oauth0\Resources;
 use Tests\TestCase;
 use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\LoginUser;
-use Crazymeeks\Oauth0\Provider\ClientSecretId;
 
 class LoginUserTest extends TestCase
 {
 
 
-    protected $clientSecretId;
 
     public function setUp(): void
     {
@@ -21,16 +19,6 @@ class LoginUserTest extends TestCase
         $this->setUpClientSecretId();
     }
 
-    protected function setUpClientSecretId()
-    {
-        $clientSecretId = new ClientSecretId();
-
-        $clientSecretId->setClientId('123445')
-                       ->setClientSecret('DLK03909');
-
-        $this->clientSecretId = $clientSecretId;
-    }
-    
 
     public function testShouldLoginUser()
     {

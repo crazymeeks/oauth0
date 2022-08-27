@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b3703d1965152129d0a9e38534d39963",
+    "content-hash": "211c8ab904c04f0b35ec8b42d042a4ed",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -1559,6 +1559,66 @@
             "time": "2021-12-08T12:19:24+00:00"
         },
         {
+            "name": "phpstan/phpstan",
+            "version": "1.8.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "1c74684c85bb016641b8caf43df253a978907d5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1c74684c85bb016641b8caf43df253a978907d5d",
+                "reference": "1c74684c85bb016641b8caf43df253a978907d5d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "default-branch": true,
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
+            "support": {
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.x"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-08-26T15:55:28+00:00"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "7.0.x-dev",
             "source": {
@@ -2791,7 +2851,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "ixudra/curl": 20,
-        "mockery/mockery": 20
+        "mockery/mockery": 20,
+        "phpstan/phpstan": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

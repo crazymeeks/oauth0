@@ -4,14 +4,42 @@ namespace Crazymeeks\Oauth0\Resources;
 
 use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Contracts\Resources\ResourceInterface;
+use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
+
+/**
+ * @property array $properties
+ * @property string $client_id
+ * @property string $client_secret
+ */
 
 abstract class BaseResource implements ResourceInterface
 {
 
     /**
+     * Auth0 resource' endpoint
+     *
+     * @var string
+     */
+    protected $apiEndpoint;
+
+    /**
+     * Auth0 client secret id
+     *
+     * @var \Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface
+     */
+    protected $clientSecretId;
+
+    /**
+     * Resource' http method
+     *
+     * @var string
+     */
+    protected $httpMethod;
+
+    /**
      * Resource header
      *
-     * @var array
+     * @var array<array<string, string>>
      */
     protected $headers = [];
 
@@ -26,7 +54,7 @@ abstract class BaseResource implements ResourceInterface
     /**
      * Store our overloaded properties
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $properties = [];
 
@@ -50,7 +78,12 @@ abstract class BaseResource implements ResourceInterface
 
 
     /**
-     * @inheritDoc
+     * Dynamically set property
+     * 
+     * @param string $name
+     * @param mixed $value
+     * 
+     * @return void
      */
     public function __set($name, $value)
     {
@@ -59,7 +92,11 @@ abstract class BaseResource implements ResourceInterface
 
 
     /**
-     * @inheritDoc
+     * Dynamically get property
+     * 
+     * @param string $name
+     * 
+     * @return mixed
      */
     public function __get($name)
     {
@@ -68,7 +105,11 @@ abstract class BaseResource implements ResourceInterface
 
 
     /**
-     * @inheritDoc
+     * Check if dynamic property has been set
+     * 
+     * @param string $name
+     * 
+     * @return boolean
      */
     public function __isset($name)
     {
@@ -76,7 +117,11 @@ abstract class BaseResource implements ResourceInterface
     }
 
     /**
-     * @inheritDoc
+     * Unset dynamic property
+     * 
+     * @param string $name
+     * 
+     * @return void
      */
     public function __unset($name)
     {
@@ -109,11 +154,7 @@ abstract class BaseResource implements ResourceInterface
     }
 
     /**
-     * Set response data returned by oauth0
-     * 
-     * @param string json
-     *
-     * @return $this
+     * @inheritDoc
      */
     public function setResponse(string $json = null)
     {
@@ -122,9 +163,7 @@ abstract class BaseResource implements ResourceInterface
     }
 
     /**
-     * Get response return by oauth0
-     *
-     * @return object
+     * @inheritDoc
      */
     public function getResponse()
     {

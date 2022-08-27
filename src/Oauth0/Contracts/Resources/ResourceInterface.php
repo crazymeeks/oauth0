@@ -9,6 +9,23 @@ interface ResourceInterface
 
 
     /**
+     * Set response data returned by oauth0
+     * 
+     * @param string $json
+     *
+     * @return $this
+     */
+    public function setResponse(string $json = null);
+
+    /**
+     * Get response return by oauth0
+     *
+     * @return mixed
+     */
+    public function getResponse();
+
+
+    /**
      * Set http method for this resource
      *
      * @param string $httpMethod
@@ -45,7 +62,7 @@ interface ResourceInterface
     /**
      * Set headers for this resource
      * 
-     * @param array $headers
+     * @param array<array<string, string>> $headers
      *
      * @return $this
      */
@@ -54,7 +71,7 @@ interface ResourceInterface
     /**
      * Get headers for this resource
      *
-     * @return array
+     * @return array<array<string, string>>
      */
     public function getHeaders();
 
@@ -72,7 +89,7 @@ interface ResourceInterface
      * 
      * @param \Crazymeeks\Oauth0\Oauth0 $oauth0
      *
-     * @return array
+     * @return array<string, string>
      */
     public function get(Oauth0 $oauth0);
 }

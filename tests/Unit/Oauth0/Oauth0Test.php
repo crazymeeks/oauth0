@@ -20,8 +20,11 @@ use Crazymeeks\Oauth0\Resources\RetrieveUserByEmail;
 
 class Oauth0Test extends TestCase
 {
-
-    protected $clientSecretId;
+    /**
+     * Curl
+     *
+     * @var mixed
+     */
     protected $curl;
 
     public function setUp(): void

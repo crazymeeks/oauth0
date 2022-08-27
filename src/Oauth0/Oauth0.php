@@ -111,6 +111,13 @@ class Oauth0
         return $this->oauthResource->setResponse($response->content);
     }
 
+    /**
+     * Merge headers
+     *
+     * @param mixed $builder
+     * 
+     * @return \Ixudra\Curl\Builder
+     */
     protected function mergeHeaders($builder)
     {
         if ($this->oauthResource->hasHeaders()) {

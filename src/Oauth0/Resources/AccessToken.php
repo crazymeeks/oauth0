@@ -6,13 +6,14 @@ use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\BaseResource;
 use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
 
+
+/**
+ * @property string $audience
+ * @property string $grant_type
+ */
 class AccessToken extends BaseResource
 {
 
-    /**
-     * @var \Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface
-     */
-    protected $clientSecretId;
 
     /**
      * @var string

@@ -39,7 +39,7 @@ interface EnrolUserToMFAInterface
     /**
      * Get recovery codes
      *
-     * @return array
+     * @return array<string>
      */
     public function getRecoveryCodes();
 }

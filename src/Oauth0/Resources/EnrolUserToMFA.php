@@ -7,14 +7,16 @@ use Crazymeeks\Oauth0\Resources\BaseResource;
 use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
 use Crazymeeks\Oauth0\Contracts\Resources\EnrolUserToMFAInterface;
 
+
+/**
+ * @property string $audience
+ * @property string $scope
+ * 
+ */
+
 class EnrolUserToMFA extends BaseResource implements EnrolUserToMFAInterface
 {
 
-
-    /**
-     * @var \Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface
-     */
-    protected $clientSecretId;
 
     /**
      * @var string

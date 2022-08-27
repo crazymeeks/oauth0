@@ -6,7 +6,7 @@ use Tests\TestCase;
 
 use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\AccessToken;
-use Crazymeeks\Oauth0\Provider\ClientSecretId;
+
 
 class AccessTokenTest extends TestCase
 {
@@ -38,13 +38,4 @@ class AccessTokenTest extends TestCase
         ], $properties);
     }
 
-    protected function setUpClientSecretId()
-    {
-        $clientSecretId = new ClientSecretId();
-
-        $clientSecretId->setClientId('123445')
-                       ->setClientSecret('DLK03909');
-
-        $this->clientSecretId = $clientSecretId;
-    }
 }

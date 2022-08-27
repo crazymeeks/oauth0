@@ -8,14 +8,12 @@ use Crazymeeks\Oauth0\Resources\BaseResource;
 use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
 use Crazymeeks\Oauth0\Contracts\Resources\ValidateMFAOTPInterface;
 
+/**
+ * @property string $grant_type
+ */
+
 class ValidateMFAOTP extends BaseResource implements ValidateMFAOTPInterface
 {
-
-
-    /**
-     * @var \Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface
-     */
-    protected $clientSecretId;
 
     /**
      * @var string
