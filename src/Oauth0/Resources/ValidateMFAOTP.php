@@ -10,6 +10,8 @@ use Crazymeeks\Oauth0\Contracts\Resources\ValidateMFAOTPInterface;
 
 /**
  * @property string $grant_type
+ * @property string $mfa_token
+ * @property string $otp
  */
 
 class ValidateMFAOTP extends BaseResource implements ValidateMFAOTPInterface
@@ -97,6 +99,6 @@ class ValidateMFAOTP extends BaseResource implements ValidateMFAOTPInterface
 
         parent::createDefaultProps($oauth0);
 
-        $this->grant_type = sprintf("%s/%s", $oauth0->getHost(), 'grant_type/mfa-otp');
+        $this->grant_type = "http://auth0.com/oauth/grant-type/mfa-otp";
     }
 }

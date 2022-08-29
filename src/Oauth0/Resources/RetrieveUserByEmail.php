@@ -4,8 +4,10 @@ namespace Crazymeeks\Oauth0\Resources;
 
 use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\BaseResource;
-use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
-use Crazymeeks\Oauth0\Contracts\Resources\ValidateMFAOTPInterface;
+
+/**
+ * @property string $email
+ */
 
 
 class RetrieveUserByEmail extends BaseResource
