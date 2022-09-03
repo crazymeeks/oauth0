@@ -433,7 +433,7 @@ you can validate it using the code below.
 
     class ExampleClass
     {
-        public function loginUser()
+        public function validateOtp()
         {
             // set client id, you may retrieve your client_id and client_secret
             // from your oauth0 account
@@ -483,7 +483,7 @@ in this action is 204.
 
     class ExampleClass
     {
-        public function loginUser()
+        public function resetMfa()
         {
             
             // prepare the resource
@@ -506,3 +506,47 @@ in this action is 204.
             
         }
     }
+
+=================
+Change Password
+=================
+
+Change password of user in auth0. Note that auth0 will send password reset email link.
+
+.. code-block:: php
+
+    <?php
+
+    namespace YourNameSpace;
+
+    use Crazymeeks\Oauth0\Oauth0;
+    use Crazymeeks\Oauth0\Resources\ResetPassword;
+
+    class ExampleClass
+    {
+        public function changePassword()
+        {
+            
+            // set client id, you may retrieve your client_id and client_secret
+            // from your oauth0 account
+            $client = new ClientSecretId();
+            $client->setClientId('1234')
+                   ->setClientSecret('myclient-secret');
+
+            // prepare the resource
+            $resource = new ResetPassword($client);
+            $resource->email = 'test@email.com';
+            $resource->connection = 'Username-Password-Authentication';
+
+
+            // Send request to Oauth0 server
+            $oauth0 = new Oauth0('https://oauth0-test.auth0.com');
+
+            /** @var \Crazymeeks\Oauth0\Resources\LoginUser $resource */
+            $resource = $oauth0->setResource($resource)
+                        ->execute();
+            // The return of this is a just a string of message
+            
+        }
+    }
+

@@ -40,7 +40,7 @@ class ValidateMFAOTPTest extends TestCase
             'otp' => $mfa->otp,
             'client_id' => '123445',
             'client_secret' => 'DLK03909',
-            'grant_type' => 'https://oauth0-test.auth0.com/grant_type/mfa-otp'
+            'grant_type' => 'http://auth0.com/oauth/grant-type/mfa-otp'
         ], $params);
     }
 

@@ -158,7 +158,16 @@ abstract class BaseResource implements ResourceInterface
      */
     public function setResponse(string $json = null)
     {
-        $this->oauthResponse = json_decode($json);
+
+        $json_validator = function($data) {
+            if (!empty($data) || !$data === null) {
+                return is_string($data) && 
+                  is_array(json_decode($data, true)) ? true : false;
+            }
+            return false;
+        };
+
+        $this->oauthResponse = $json_validator($json) ? json_decode($json) : $json;
         return $this;
     }
 

@@ -12,6 +12,7 @@ use Crazymeeks\Oauth0\Resources\CreateUser;
 use Crazymeeks\Oauth0\Resources\UpdateUser;
 use Crazymeeks\Oauth0\Resources\AccessToken;
 use Crazymeeks\Oauth0\Resources\ResetUserMFA;
+use Crazymeeks\Oauth0\Resources\ResetPassword;
 use Crazymeeks\Oauth0\Provider\ClientSecretId;
 use Crazymeeks\Oauth0\Resources\EnrolUserToMFA;
 use Crazymeeks\Oauth0\Resources\ValidateMFAOTP;
@@ -209,6 +210,39 @@ class Oauth0Test extends TestCase
         $resource = $oauth0->setResource($resource)
                            ->execute();
         $this->assertEquals('auth0|656678310c0294bd8a60f12d', $resource->getResponse()->user_id);
+    }
+
+    public function testShouldResetUserPassword()
+    {
+        
+        $resource = new ResetPassword($this->clientSecretId);
+
+        $resource->email = 'test@email.com';
+        $resource->connection = 'Username-Password-Authentication';
+        $to = sprintf("%s/%s", "https://oauth0-test.auth0.com", $resource->getApiEndPoint());
+        $curl = $this->curl;
+        $curl->shouldReceive('to')
+             ->with($to)
+             ->andReturnSelf();
+    
+        $curl->shouldReceive('withData')
+             ->with(Mockery::any())
+             ->andReturnSelf();
+        $curl->shouldReceive('asJsonRequest')
+             ->andReturnSelf();
+        $curl->shouldReceive('returnResponseObject')
+             ->andReturnSelf();
+        $curl->shouldReceive('post')
+             ->andReturn(json_decode(json_encode([
+                'status' => 200,
+                'content' => "We've just sent you and email to reset your password."
+             ])));
+        
+        $oauth0 = new Oauth0('https://oauth0-test.auth0.com', $curl);
+        $resource = $oauth0->setResource($resource)
+                           ->execute();
+
+        $this->assertEquals($resource->getResponse(), "We've just sent you and email to reset your password.");
     }
 
     public function testShouldLoginUserWith2FA()

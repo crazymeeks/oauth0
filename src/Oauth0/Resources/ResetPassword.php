@@ -4,25 +4,18 @@ namespace Crazymeeks\Oauth0\Resources;
 
 use Crazymeeks\Oauth0\Oauth0;
 use Crazymeeks\Oauth0\Resources\BaseResource;
+use Crazymeeks\Oauth0\Contracts\Provider\ClientSecretIdInterface;
 
 /**
+ * @property string $client_id
  * @property string $email
- * @property bool $email_verified
- * @property object $app_metadata
- * @property string $given_name
- * @property string $family_name
- * @property string $name
- * @property string $nickname
- * @property string $picture
  * @property string $connection
- * @property string $password
- * @property string $verify_email
  */
 
-class CreateUser extends BaseResource
+class ResetPassword extends BaseResource
 {
-
-
+ 
+    
     /**
      * @var string
      */
@@ -32,14 +25,20 @@ class CreateUser extends BaseResource
     /**
      * @var string
      */
-    protected $apiEndpoint = 'api/v2/users';
+    protected $apiEndpoint = 'dbconnections/change_password';
 
+
+    public function __construct(ClientSecretIdInterface $clientSecretId)
+    {
+        $this->clientSecretId = $clientSecretId;
+    }
 
     /** 
      * @inheritDoc
      */
     public function get(Oauth0 $oauth0)
     {
+        $this->createDefaultProps($oauth0);
         return $this->properties;
     }
 
@@ -48,6 +47,7 @@ class CreateUser extends BaseResource
      */
     protected function createDefaultProps(Oauth0 $oauth0)
     {
-        
+        parent::createDefaultProps($oauth0);
+        unset($this->properties['client_secret']);
     }
 }
