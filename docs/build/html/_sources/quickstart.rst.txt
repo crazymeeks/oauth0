@@ -157,7 +157,7 @@ Update user
     {
         
 
-        public function updaetUser()
+        public function updateUser()
         {
 
             //prepare the resource
@@ -174,6 +174,12 @@ Update user
             $resource->connection = 'Database-Connection';
             $resource->password = 'password1234';
             $resource->verify_email = false;
+
+
+            /**
+             * If you want to force email to be updated
+             */
+            $resource->forceUpdateEmail(true);
 
             
             $resource->setHeaders(array(

@@ -41,6 +41,8 @@ class UpdateUser extends BaseResource
      */
     protected $userId;
 
+    protected $forceEmailUpdate = false;
+
 
     /**
      * Set user id
@@ -73,12 +75,38 @@ class UpdateUser extends BaseResource
         return sprintf($this->apiEndpoint, $this->getId());
     }
 
+    /**
+     * Flag that email must be updated
+     *
+     * @param boolean $value
+     * 
+     * @return $this
+     */
+    public function forceUpdateEmail(bool $value)
+    {
+        $this->forceEmailUpdate = $value;
+        return $this;
+    }
+
+    /**
+     * Should email be updated?
+     *
+     * @return boolean
+     */
+    public function isForceUpdateEmail()
+    {
+        return $this->forceEmailUpdate;
+    }
+
     /** 
      * @inheritDoc
      */
     public function get(Oauth0 $oauth0)
     {
-        unset($this->properties['email']);// email must be updated
+        if (!$this->forceEmailUpdate) {
+            unset($this->properties['email']);
+        }
+
         return $this->properties;
     }
 

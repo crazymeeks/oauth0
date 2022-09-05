@@ -219,7 +219,7 @@ after logging/signing in user.</p>
 <span class="p">{</span>
 
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">updaetUser</span><span class="p">()</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">updateUser</span><span class="p">()</span>
     <span class="p">{</span>
 
         <span class="c1">//prepare the resource</span>
@@ -236,6 +236,12 @@ after logging/signing in user.</p>
         <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">connection</span> <span class="o">=</span> <span class="s1">&#39;Database-Connection&#39;</span><span class="p">;</span>
         <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">password</span> <span class="o">=</span> <span class="s1">&#39;password1234&#39;</span><span class="p">;</span>
         <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">verify_email</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+
+
+        <span class="sd">/**</span>
+<span class="sd">         * If you want to force email to be updated</span>
+<span class="sd">         */</span>
+        <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">forceUpdateEmail</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
 
 
         <span class="nv">$resource</span><span class="o">-&gt;</span><span class="na">setHeaders</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
